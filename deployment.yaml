@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: test-deployment
+  template:
+    metadata:
+      labels:
+        app: test-deployment
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: test-deployment-container
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
+          resources:
+            requests:
+              cpu: 1

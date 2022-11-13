@@ -1,0 +1,38 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: karpenter-demo
+  region: eu-central-1
+  version: "1.23"
+  tags:
+    karpenter.sh/discovery: karpenter-demo
+availabilityZones:
+  - "eu-central-1a"
+  - "eu-central-1b"
+# vpc:
+#   cidr: 10.0.0.0/16
+#   autoAllocateIPv6: true
+#   clusterEndpoints:
+#     publicAccess: true
+#     privateAccess: true
+
+managedNodeGroups:
+  - instanceType: t3.medium
+    amiFamily: AmazonLinux2
+    name: karpenter-demo-ng
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 5
+    spot: true
+iam:
+  withOIDC: true
+cloudWatch:
+  clusterLogging:
+    logRetentionInDays: 90
+    enableTypes:
+    - "api"
+    - "audit"
+    - "authenticator"
+    - "controllerManager"
+    - "scheduler"
